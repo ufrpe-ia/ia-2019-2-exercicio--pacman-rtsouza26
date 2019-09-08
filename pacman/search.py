@@ -86,6 +86,11 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
+
+    start = problem.getStartState()
+    succ = problem.getSuccessors(start)
+    print(start)
+    print(succ)
     util.raiseNotDefined()
 
 
@@ -95,6 +100,24 @@ def breadthFirstSearch(problem):
     DICA: Utilizar util.PriorityQueue
     *** YOUR CODE HERE ***
     """
+    start = problem.getStartState()
+    print(start)
+    visited = []
+    fringe = util.Queue()
+    fringe.push((start,[]))
+    while not fringe.isEmpty():
+        node,direction = fringe.pop()
+        if problem.isGoalState(node):
+            print(direction)
+            return direction
+        for p in problem.getSuccessors(node):
+            if p[0] not in visited:
+                visited.append(p[0])
+                fringe.push((p[0],direction+[p[1]]))
+    print(direction)
+    return direction
+
+
     util.raiseNotDefined()
 
     
@@ -102,6 +125,28 @@ def uniformCostSearch(problem):
     """Search the node of least total cost first.
     *** YOUR CODE HERE ***
     """
+    start = problem.getStartState()
+    print(start)
+    visited = []
+    visited.append(start)
+    fringe = util.PriorityQueue()
+    fringe.push(((start,[]),0),0)
+    while not fringe.isEmpty():
+        node, cost = fringe.pop()
+        if problem.isGoalState(node[0]):
+            print(node[1])
+            print(cost)
+            return node[1]
+        for p in problem.getSuccessors(node[0]):
+            if p[0] not in visited:
+                visited.append(p[0])
+                fringe.push(((p[0],node[1]+[p[1]]),cost+p[2]),0)
+    print(node[1])
+    print(len(node[1]))
+    print(cost)
+    return node[1]
+
+
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
